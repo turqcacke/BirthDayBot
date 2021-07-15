@@ -19,3 +19,17 @@ class Information(Base):
     last_congrat = Column(Date, nullable=True, default=None)
     gender = Column(String, nullable=True)
 
+    def get_full_name(self):
+        return self.name + ' ' + self.surname
+
+
+if __name__ == '__main__':
+    from sqlalchemy import func
+    from datetime import datetime
+
+    session = Session()
+    result = session.query(Information).where(Information.name == 'Туйчиева').all()
+    result[0].last_congrat = None
+    print(result[0].get_full_name())
+    session.commit()
+    session.close()

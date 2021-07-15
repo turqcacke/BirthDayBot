@@ -10,7 +10,7 @@ CHANNEL = env.str('CHANNEL')
 
 DB_NAME = 'db.sqlite3'
 BASE_DIR = Path(__file__).parent.parent
+IMAGE_PATH = BASE_DIR.joinpath('media/image.jpg')
 TIME_ZONE = 'Asia/Tashkent'
 
 assert BOT_TOKEN and CHANNEL
-

@@ -8,11 +8,21 @@ from main import BOT
 class AdminCheck(BaseMiddleware):
 
     async def on_process_update(self, update: Update, data: dict):
+        message = None
+
         if update.message:
-            chat_id = str(update.message.from_user.id)
+            message = update.message
+        elif update.callback_query:
+            message = update.callback_query.message
+
+        if message:
+            chat_id = str(message.chat.id)
             if chat_id in ADMINS:
                 return
-            await BOT.forward_message(chat_id=chat_id,
-                                      from_chat_id=chat_id,
-                                      message_id=update.message.message_id)
+            if message.chat.id == message.from_user.id:
+                await BOT.send_message(chat_id=message.chat.id,
+                                       text='Started')
+        if update.callback_query:
+            await update.callback_query.answer('Insufficient rights.',
+                                               show_alert=True)
         raise CancelHandler

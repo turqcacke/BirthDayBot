@@ -1,7 +1,9 @@
 from aiogram import Dispatcher, Bot, executor
 from data.config import BOT_TOKEN
+from aiogram.types import ParseMode
 
-BOT = Bot(token=BOT_TOKEN)
+
+BOT = Bot(token=BOT_TOKEN, parse_mode=ParseMode.HTML)
 DP = Dispatcher(bot=BOT)
 
 
