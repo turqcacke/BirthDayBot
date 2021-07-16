@@ -1,5 +1,6 @@
 from .commands import setup_commands, Commands
 from .callback import setup_callback_handlers
+from .edit_menu import setup_edit_menu_handlers
 from aiogram import Dispatcher
 from aiogram import types
 
@@ -15,3 +16,4 @@ async def default_commands(dp: Dispatcher):
 def setup(dp: Dispatcher):
     setup_callback_handlers(dp)
     setup_commands(dp)
+    setup_edit_menu_handlers(dp)
