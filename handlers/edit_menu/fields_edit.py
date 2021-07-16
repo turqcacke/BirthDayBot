@@ -43,7 +43,8 @@ async def edit_surname(message: Message, state: FSMContext):
 
     await edit_bind_message(result,
                             message.chat.id,
-                            state_data)
+                            state_data,
+                            resend=True)
 
     await finish_session(state, session)
 
@@ -58,10 +59,12 @@ async def edit_birthday(message: Message, state: FSMContext):
     except ValueError:
         await message.answer('Please enter correct date.')
         session.close()
+        return
     session.flush()
 
     await edit_bind_message(result,
                             message.chat.id,
-                            state_data)
+                            state_data,
+                            resend=True)
 
     await finish_session(state, session)

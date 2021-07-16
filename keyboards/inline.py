@@ -21,7 +21,7 @@ def inline_persons(pagination: int = PAGINATION, start_index: int = 1):
                                     callback_data=detail_user_callback.new(db_info_id=person.id,
                                                                            last_start_id=start_index)))
 
-    if results:
+    if results or (first and start_index > first.id):
         down_kb = []
         if first not in results:
             back_start_id = session.query(Information) \
@@ -32,12 +32,12 @@ def inline_persons(pagination: int = PAGINATION, start_index: int = 1):
                                                     start_id=back_start_id, ))
                            )
 
-        if last not in results:
-            nex_start_id = session.query(Information).where(Information.id > start_index).limit(pagination).all()[-1]
-            nex_start_id = nex_start_id.id
+        if last not in results and results:
+            next_start_id = session.query(Information).where(Information.id > start_index).limit(pagination).all()[-1]
+            next_start_id = next_start_id.id
             down_kb.append(InlineKeyboardButton(text='➡️',
                                                 callback_data=pagination_callback.new(
-                                                    start_id=nex_start_id))
+                                                    start_id=next_start_id))
                            )
         kb.row(*down_kb)
     kb.add(InlineKeyboardButton('Close',
