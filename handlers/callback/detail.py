@@ -14,6 +14,9 @@ async def detail(callback: CallbackQuery, state: FSMContext):
     session = Session()
     result: Information = session.query(Information).where(Information.id == db_info_id).one_or_none()
     text = INFO.format(id=result.id, name=result.name, surname=result.surname, birthday=result.day.strftime('%d.%m.%Y'))
+
+    await callback.answer('Info')
+
     await edit_or_resend(message_id=callback.message.message_id,
                          chat_id=callback.message.chat.id,
                          text=text,

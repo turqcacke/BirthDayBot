@@ -11,6 +11,9 @@ from main import BOT
 async def pagination_handler(callback: CallbackQuery, state: FSMContext):
     data = pagination_callback.parse(callback.data)
     start_id = int(data['start_id'])
+
+    await callback.answer('Done')
+
     await edit_or_resend(message_id=callback.message.message_id,
                          chat_id=callback.message.chat.id,
                          text=MENU_MESSAGE,

@@ -38,6 +38,6 @@ def setup_commands(dp: Dispatcher):
                                 state=None)
 
     dp.register_message_handler(cancel_command,
-                                commands=[Commands.cancel.value, ],
+                                commands=[Commands.cancel.value],
                                 content_types=ContentTypes.TEXT,
                                 state='*')
