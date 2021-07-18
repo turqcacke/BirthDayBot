@@ -11,7 +11,9 @@ async def default_commands(dp: Dispatcher):
         types.BotCommand(str(Commands.congratulate), 'Отправить поздравления'),
         types.BotCommand(str(Commands.ls), 'Список'),
         types.BotCommand(str(Commands.cancel), 'Отменить'),
-        types.BotCommand(str(Commands.add), 'Добавить в список')
+        types.BotCommand(str(Commands.add), 'Добавить в список'),
+        types.BotCommand(str(Commands.start_auto), 'Вкл. авто поздравления'),
+        types.BotCommand(str(Commands.stop_auto), 'Выкл. авто поздравления')
     ])
 
 

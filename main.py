@@ -1,11 +1,6 @@
-from aiogram import Dispatcher, Bot, executor
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from data.config import BOT_TOKEN
-from aiogram.types import ParseMode
-
-
-BOT = Bot(token=BOT_TOKEN, parse_mode=ParseMode.HTML)
-DP = Dispatcher(bot=BOT, storage=MemoryStorage())
+import aiojobs
+from aiogram import Dispatcher, executor
+from globals import *
 
 
 async def on_start_polling(dp: Dispatcher):
@@ -13,12 +8,18 @@ async def on_start_polling(dp: Dispatcher):
     from handlers import default_commands, \
         setup as setup_handlers
 
+    await scheduler.scheduler_run()
+
     middleware_setup(dp)
     await default_commands(dp)
     setup_handlers(dp)
 
 
 async def on_shutdown_polling(dp: Dispatcher):
+    if scheduler:
+        for job in jobs:
+            await job.wait(2)
+        await scheduler.scheduler_close()
     dp.stop_polling()
 
 

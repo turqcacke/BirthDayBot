@@ -4,13 +4,14 @@ from models.db_models import Session, Information
 from sqlalchemy import extract
 from datetime import datetime
 from data.config import TIME_ZONE, CHANNEL, IMAGE_PATH
-from data.static import CONGRAT_MESSAGE
+from data.static import CONGRAT_MESSAGE, DEFAULT_TIMEOUT
 from aiogram.utils.exceptions import TelegramAPIError
 from main import BOT
 import pytz
+from asyncio import sleep
 
 
-async def congratulate(message: Message, state: FSMContext):
+async def congratulate(message: Message):
     session = Session()
     date_now = datetime.now(tz=pytz.timezone(TIME_ZONE)).date()
 
@@ -42,3 +43,31 @@ async def congratulate(message: Message, state: FSMContext):
 
     session.commit()
     session.close()
+
+
+async def timed_congratulate(message: Message, timeout: int = DEFAULT_TIMEOUT):
+    while True:
+        await congratulate(message)
+        await sleep(timeout)
+
+
+async def congratulate_by_command(message: Message, state: FSMContext):
+    await congratulate(message)
+
+
+async def congratulate_auto(message: Message, state: FSMContext):
+    from main import scheduler, jobs
+    if scheduler and not jobs:
+        jobs.append(await scheduler.get().spawn(timed_congratulate(message)))
+        await message.answer('Starting auto congratulating.')
+        return
+    await message.answer('Congratulating is already started.')
+
+
+async def stop_congratulate_auto(message: Message, state: FSMContext):
+    from main import jobs
+    for job in jobs:
+        await job.close()
+
+    jobs.clear()
+    await message.answer('Auto congratulating sopped.')

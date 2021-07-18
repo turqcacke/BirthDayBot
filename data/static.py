@@ -20,3 +20,5 @@ INFO = 'ID: {id}\nName: {name}\nSurname: {surname}\nBirthday: {birthday}'
 MENU_MESSAGE = 'List of employee:'
 
 LENGTH_LIMIT = 32
+
+DEFAULT_TIMEOUT = 86400
