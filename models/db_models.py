@@ -4,8 +4,9 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column, Integer, String, Date
 from data.config import BASE_DIR, DB_NAME
 from .choices import Gender
+from data.config import VERBOSE
 
-engine = create_engine(f'sqlite:////{BASE_DIR}/{DB_NAME}', echo=True)
+engine = create_engine(f'sqlite:////{BASE_DIR}/{DB_NAME}', echo=VERBOSE)
 Session = sessionmaker(bind=engine, expire_on_commit=False)
 Base = declarative_base()
 
