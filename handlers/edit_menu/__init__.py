@@ -15,7 +15,7 @@ async def surname_validate(msg):
 
 
 async def date_validate(msg):
-    await msg.anser(f'Invalid date format. Should be like "01.02.1900".')
+    await msg.answer(f'Invalid date format. Should be like "01.02.1900".')
 
 
 def setup_edit_menu_handlers(dp: Dispatcher):
