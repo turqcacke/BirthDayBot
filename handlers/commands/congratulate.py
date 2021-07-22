@@ -66,8 +66,10 @@ async def congratulate_auto(message: Message, state: FSMContext):
 
 async def stop_congratulate_auto(message: Message, state: FSMContext):
     from main import jobs
-    for job in jobs:
-        await job.close()
-
-    jobs.clear()
-    await message.answer('Auto congratulating sopped.')
+    if jobs:
+        for job in jobs:
+            await job.close()
+        jobs.clear()
+        await message.answer('Auto congratulating sopped.')
+        return
+    await message.answer('Auto congratulating is not launched.')
